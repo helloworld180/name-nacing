@@ -1,17 +1,19 @@
 <template>
     <div class="home">
         <div class="content">
+            <!-- 展示区 -->
             <div class="leftIcon">
-                
+                <RouterView></RouterView>
             </div>
+            <!-- 导航栏 -->
             <div class="select">
-                <div class="selectItem">
+                <div @click="gotoImpt" class="selectItem">
                     导入文件
                 </div>
                 <div class="selectItem">
                     开始点名
                 </div>
-                <div class="selectItem">
+                <div @click="gotoRule" class="selectItem">
                     规则设置
                 </div>
                 <div class="selectItem">
@@ -23,6 +25,22 @@
 </template>
 
 <script>
+import { RouterLink, RouterView } from 'vue-router';
+export default {
+    data() {
+        return {
+
+        }
+    },
+    methods: {
+        gotoImpt(){
+            this.$router.push('/home/importFile')
+        },
+        gotoRule() {
+            this.$router.push('/home/ruleSetting')
+        }
+    }
+}
 </script>
 
 <style scoped>
@@ -43,7 +61,7 @@
 .leftIcon {
     width: 700px;
     height: 800px;
-    background-color: #fff;
+    /* background-color: red; */
 }
 .selectItem {
     padding: 25px 130px;
@@ -54,6 +72,7 @@
     font-weight: bold;
     margin-bottom: 65px;
     cursor: pointer;
+    text-decoration: none;
 }
 .selectItem:hover {
     background-color: #6231F5;
