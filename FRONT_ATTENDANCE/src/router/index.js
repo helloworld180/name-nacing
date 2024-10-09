@@ -5,6 +5,9 @@ import login from '@/views/login2.vue'
 import home from '@/views/home.vue'
 import importFile from '@/views/importFile.vue'
 import ruleSetting from '@/views/ruleSetting.vue'
+import seeChart from '@/views/seeChart.vue'
+import beginCall from '@/views/beginCall.vue'
+import result from '@/views/result.vue'
 
 // 创建路由器
 const router = createRouter({
@@ -28,8 +31,20 @@ const router = createRouter({
         {
           path:'ruleSetting',
           component: ruleSetting
+        },
+        {
+          path:'seeChart',
+          component:seeChart
         }
       ]
+    },
+    {
+      path:'/beginCall',
+      component:beginCall
+    },
+    {
+      path:'/result',
+      component:result
     }
     
   ]

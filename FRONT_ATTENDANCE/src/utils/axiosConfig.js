@@ -4,7 +4,7 @@ import {getToken} from '@/token/auth' // 注意这里使用了解构赋值来导
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://example.com/api', // 配置基础URL
+  baseURL: 'http://localhost:8080/api', // 配置基础URL
   timeout: 5000, // 请求超时时间
 });
 
@@ -29,6 +29,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     // 对响应数据做点什么
+    // 注意！！！这里返回已经包含data
     const res = response.data;
     // 你可以根据实际情况在这里添加一些通用的响应处理逻辑
     // 例如，根据返回的状态码判断请求是否成功

@@ -147,7 +147,9 @@
             username: this.loginForm.phone,
             password: this.loginForm.password
           });
+          console.log('登录成功', response)
           // 假设token在响应的data字段中
+          // !!存疑！!
           const token = response.data.token;
           // 存储token
           setToken(token);
@@ -156,7 +158,7 @@
           this.$router.push('/home');
         } catch (error) {
           // 处理登录错误
-          console.error('Login Error:', error);
+          console.error('登录 Error:', error);
         }
       },
       // 注册逻辑

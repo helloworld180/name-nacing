@@ -16,7 +16,7 @@
                 </el-radio-group>
             </el-form-item>
       
-            <el-form-item label="是否触发随机事件 ？">
+            <el-form-item label="是否触发随机事件 ？" v-if="form.nameOrQuestion === '提问'">
                 <el-radio-group v-model="form.triggerRandomEvent">
                     <el-radio label="触发">触发</el-radio>
                     <el-radio label="不触发">不触发</el-radio>
@@ -54,24 +54,55 @@
 import router from '@/router';
 import { ref } from 'vue'
 import { ElTooltip } from 'element-plus'
+import axios from 'axios';
 
 const form = ref({
   nameOrQuestion: '点名',
   triggerRandomEvent: '触发',
   enableFateWheel: '否'
 })
-const confirmSetting = () => {
-  // 确认设置,向后端发送数据
-  const data = {
-    nameOrQuestion: form.value.nameOrQuestion,
-    triggerRandomEvent: form.value.triggerRandomEvent,
-    enableFateWheel: form.value.enableFateWheel,
-  }
-    // 打印 form 的值
-    console.log(form.value.nameOrQuestion)
-  // 这里调用API发送数据到后端
-  console.log('发送到后端的数据:', data)
+
+
+const confirmSetting = async () => {
+
+    if(form.value.nameOrQuestion === '点名') {
+        form.value.triggerRandomEvent = '不触发'
+    }
+    // 这里不对接后端，把选项的值保存到localStorage
+    localStorage.setItem('nameOrQuestion', form.value.nameOrQuestion);
+    localStorage.setItem('triggerRandomEvent', form.value.triggerRandomEvent);
+    localStorage.setItem('enableFateWheel', form.value.enableFateWheel);
+    
+    // const nameOrQuestion1 = localStorage.getItem('nameOrQuestion');
+    // console.log('nameOrQuestion的值为：' + nameOrQuestion1)
+    // const triggerRandomEvent1 = localStorage.getItem('triggerRandomEvent');
+    // console.log('triggerRandomEvent的值为：' + triggerRandomEvent1)
+    // const enableFateWheel1 = localStorage.getItem('enableFateWheel');
+    // console.log('enableFateWheel的值为：' + enableFateWheel1)
+
+    router.push('/home')
+
+
+    // 确认设置,向后端发送数据
+    // const data = {
+    //     isRollCall: form.value.nameOrQuestion,
+    //     triggerRandomEvent: form.value.triggerRandomEvent,
+    //     wheelOfFortune: form.value.enableFateWheel,
+    // }
+
+    // console.log(form.value.nameOrQuestion)
+    // try {
+
+    //     const response = await axios.post('/rollcall/start', data); 
+    //     console.log('后端响应:', response.data);
+
+
+    // } catch (error) {
+    //     console.error('发送请求时出错:', error);
+    // }
+    // console.log('发送到后端的数据:', data)
 }
+
 function close() {
     router.push('/home')
 }

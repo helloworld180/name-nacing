@@ -10,13 +10,13 @@
                 <div @click="gotoImpt" class="selectItem">
                     导入文件
                 </div>
-                <div class="selectItem">
+                <div @click="gotoCall" class="selectItem">
                     开始点名
                 </div>
                 <div @click="gotoRule" class="selectItem">
                     规则设置
                 </div>
-                <div class="selectItem">
+                <div @click="gotoChart" class="selectItem">
                     查看排行
                 </div>
             </div>
@@ -38,6 +38,12 @@ export default {
         },
         gotoRule() {
             this.$router.push('/home/ruleSetting')
+        },
+        gotoChart() {
+            this.$router.push('/home/seeChart')
+        },
+        gotoCall() {
+            this.$router.push('/beginCall')
         }
     }
 }

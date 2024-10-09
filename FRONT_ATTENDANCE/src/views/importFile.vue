@@ -11,11 +11,10 @@
         <el-upload
             ref="uploadRef"
             class="upload-demo"
-            action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
-            :auto-upload="false"
             :limit="1"
             accept=".xlsx, .xls"
             :on-exceed="handleExceed"
+            :http-request="customUpload"
         >
             <div style="font-size: 30px; color: #7D7878;">选择文件</div>
             <input placeholder="请选择上传的文件" class="inputFile" />
@@ -38,7 +37,6 @@
         <!-- 下载模板 -->
          <a
             class="download"
-            href="后端提供的下载URL"
             download="student-template.xlsx"
             @click="onDownload"
         >
@@ -59,17 +57,18 @@
                 <div class="confirm" @click="submitUpload">导入</div>
                 <div class="cancel" @click="close">取消</div>
             </div>
-                
         </div>
+
     </div>
     
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { genFileId } from 'element-plus'
+import { genFileId, ElMessage } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import router from '@/router';
+import axios from 'axios';
 
 const uploadRef = ref<UploadInstance>()
 // 自动替换上一个文件
@@ -79,21 +78,70 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
     file.uid = genFileId()
     uploadRef.value!.handleStart(file)
 }
+
+// 自定义上传文件
+const customUpload = (options) => {
+    const { file } = options;
+    const formData = new FormData();
+    formData.append('file', file);
+
+    axios.post('http://localhost:8080/api/students/import', formData, {
+        headers: {
+        'Content-Type': 'multipart/form-data'
+        }
+    })
+    .then(response => {
+        ElMessage({
+            type: 'success',
+            message: '文件导入成功!'
+        });
+        console.log('导入结果:', response.data);
+    })
+    .catch(error => {
+        ElMessage({
+            type: 'error',
+            message: '文件导入失败，请重试!'
+        });
+        console.error('导入失败:', error);
+    });
+}
+
 // 提交文件
 const submitUpload = () => {
   uploadRef.value!.submit()
 }
 
-// 模板下载
-const onDownload = (event: MouseEvent) => {
-    // 如果需要，你可以在这里执行一些额外的逻辑，比如发送一个请求到后端
-    // 来检查用户是否有权限下载文件等。
-
-    // 阻止<a>标签默认的点击事件，因为我们已经通过href处理了下载
-    event.preventDefault();
-    // 可以在这里使用fetch等方式处理下载，或者直接通过href属性
-    window.open("后端提供的下载URL", '_blank');
+// 定义这个函数来获取下载链接
+async function getTemplateDownloadLink(): Promise<string> {
+  try {
+    const response = await axios.get('/students/download-template');
+    return response.data; // 假设后端返回的是包含下载链接的字符串
+  } catch (error) {
+    console.error('获取下载链接失败:', error);
+    throw error; // 可以选择抛出错误或者返回一个错误信息
+  }
 }
+
+// 模板下载
+const onDownload = async (event: MouseEvent) => {
+  event.preventDefault(); // 阻止<a>标签默认的点击事件
+
+  try {
+    const downloadLink = await getTemplateDownloadLink(); // 获取下载链接
+    if (downloadLink) {
+      // 使用window.open打开下载链接，或者设置<a>标签的href属性
+      window.open(downloadLink, '_blank');
+    } else {
+      // 如果没有获取到下载链接，可以在这里处理错误情况
+      alert('无法获取下载链接，请稍后再试。');
+    }
+  } catch (error) {
+    // 处理获取下载链接过程中可能出现的错误
+    console.error('下载模板时出错:', error);
+    alert('下载模板失败，请稍后再试。');
+  }
+};
+
 function close() {
     router.push('/home')
 }
