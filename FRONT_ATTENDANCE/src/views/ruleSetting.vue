@@ -54,7 +54,7 @@
 import router from '@/router';
 import { ref } from 'vue'
 import { ElTooltip } from 'element-plus'
-import axios from 'axios';
+import axios from '@/utils/axiosConfig';
 
 const form = ref({
   nameOrQuestion: '点名',

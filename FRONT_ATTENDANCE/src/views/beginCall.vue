@@ -20,10 +20,12 @@
   </template>
   
   <script>
-  import axios from 'axios';
+import axios from '@/utils/axiosConfig';
+import { ref } from 'vue';
 
   export default {
     data() {
+      // const names = ref([])
       return {
         // 防止文字变得越来越多
         maxTexts: 80,
@@ -32,27 +34,45 @@
       };
     },
     mounted() {
-        // this.fetchNames();
-        this.names = ['文字1', '文字2', '文字3', '文字4', '文字5'];
+        this.fetchNames();
+        // this.names = ['文字1', '文字2', '文字3', '文字4', '文字5'];
         this.startRain();
     },
     methods: {
         // 获取names
         async fetchNames() {
             try {
-                const response = await axios.get('/students/export-students'); 
-                this.names = response.data;
+                const response = await axios.get('/students/names',null); 
+                // this.names = response.data;
+                // console.log('后端响应：' + response)
+                if (Array.isArray(response)) {
+                    this.names = response;
+                    console.log('后端传值response：', this.names);
+                } else if (typeof response === 'object' && Array.isArray(response.data))  {
+                  this.names = response.data;
+                }else{
+                  console.error('后端返回的数据不是数组格式');
+                    this.names = ['文字1', '文字2', '文字3', '文字4', '文字5']; // 设置为空数组作为默认值
+                    console.log('实际接收到的数据：', response.data);
+                }
+                if (this.names.length === 0 || this.names.every(name => name.trim() === '')) {
+                  alert('后端传回的字符串数组全为空');
+                  // 根据需要，可以设置默认值或者直接返回
+                  // this.names = ['默认值1', '默认值2']; // 设置默认值，如果需要的话
+                  return; // 如果数组为空或全为空字符串，则提前返回，不再执行后续代码
+                }
+
             } catch (error) {
                 console.error('获取names失败:', error);
                 // 可以设置一些默认值
-                this.names = ['令狐', '令狐新锐', '令狐冲', '文字4', '文字5'];
+                // this.names = ['令狐', '令狐新锐', '令狐冲', '文字4', '文字5'];
             }
         },
 
         // 为每个文字生成随机的样式
         getTextStyle() {
             const left = Math.floor(Math.random() * 80) + 5; // 生成一个10%到90%之间的随机值，决定文字在水平方向上的起始位置。
-            const size = Math.random() * 1.7 + 0.5; // 生成一个0.5em到1.5em之间的随机大小，控制文字的大小。
+            const size = Math.random() * 1.8 + 0.5; // 生成一个0.5em到1.5em之间的随机大小，控制文字的大小。
             const duration = Math.random() * 2 + 5; // 生成一个2-7秒之间的随机持续时间，控制文字下落的速度。
             return {
             left: `${left}%`,

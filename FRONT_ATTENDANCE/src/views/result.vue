@@ -8,9 +8,13 @@
 
         <div class="lucky-info">
             <img src="../assets/image/group.svg" alt="" class="lucky-icon">
-            <div class="student-id">{{ studentId }}</div>
-            <div class="student-name">{{ studentName }}</div>
+            <div class="student-info">
+              <div class="student-id">{{ studentId }}</div>
+              <div class="student-name">{{ studentName }}</div>
+            </div>
+            <img src="../assets/image/stage.svg" alt="" class="stage-icon">
             <div class="student-msg" v-if="nameOrQuestion === '提问'">{{ message }}</div>
+            
         </div>
 
         <!-- 选择分数 -->
@@ -54,13 +58,18 @@
   <script>
   import axios from '@/utils/axiosConfig'; 
   import router from '@/router';
+// import { da } from 'element-plus/es/locale';
   
   export default {
     data() {
       return {
-        studentId: '102201338',
-        studentName: '令狐新锐',
-        message: '赌徒事件--学生可以在回答问题前下注一定数量的积分，如果回答正确，则按赌注倍数获得积分；如果错误，则失去赌注积分',
+        // studentId: '102201338',
+        // studentName: '令狐新锐',
+        // message: '赌徒事件--学生可以在回答问题前下注一定数量的积分，如果回答正确，则按赌注倍数获得积分；如果错误，则失去赌注积分',
+       studentId:'',
+       studentName:'',
+       message:'',
+       
         selectedScore: null,
         customScore: '',
 
@@ -100,13 +109,26 @@
 
         // 发送给后端，接收点名结果
         try {
+          // const response = await axios.post('/rollcall/start', null, {
+          //   params: {
+          //     rollCallMode: this.nameOrQuestion,
+          //     triggerRandomEvent: this.triggerRandomEvent,
+          //     wheelOfFortune: this.enableFateWheel,
+          //   }
+
+          // });
+
             const response = await axios.post('/rollcall/start', data); 
-            console.log('后端响应:', response.data);
+            console.log('后端响应:', response);
             this.studentId = response.studentId;
             this.studentName = response.name;
             this.message = response.message;
         } catch (error) {
-            console.error('发送请求时出错:', error);
+          console.error('发送请求时出错:', error);
+          if (error.response) {
+            console.error('错误状态码:', error.response.status);
+            console.error('错误数据:', error.response.data);
+          }
         }
 
 
@@ -137,9 +159,10 @@
           alert('请选择或输入有效的调整分数');
           return;
         }
+        console.log('调整的积分是：' + pointsDelta)
         try {
           // const response = await axios.post('/students/${this.studentId}/adjustPoints', pointsDelta)
-          await axios.put(`http://localhost:8080/api/students/${this.studentId}/adjustPoints`, {
+          await axios.put(`/students/${this.studentId}/adjustPoints`, {
             pointsDelta: pointsDelta
           });
           alert('积分调整成功');
@@ -150,7 +173,7 @@
         }
       },
       close() {
-        this.$router.push('/home')
+        this.$router.push('/beginCall')
       }
     }
   };

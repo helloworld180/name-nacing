@@ -15,6 +15,7 @@
             accept=".xlsx, .xls"
             :on-exceed="handleExceed"
             :http-request="customUpload"
+            :auto-upload="false"
         >
             <div style="font-size: 30px; color: #7D7878;">选择文件</div>
             <input placeholder="请选择上传的文件" class="inputFile" />
@@ -68,7 +69,7 @@ import { ref } from 'vue'
 import { genFileId, ElMessage } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import router from '@/router';
-import axios from 'axios';
+import axios from '@/utils/axiosConfig';
 
 const uploadRef = ref<UploadInstance>()
 // 自动替换上一个文件
@@ -84,8 +85,9 @@ const customUpload = (options) => {
     const { file } = options;
     const formData = new FormData();
     formData.append('file', file);
+    console.log('formData是：' + formData)
 
-    axios.post('http://localhost:8080/api/students/import', formData, {
+    axios.post('http://p4ue3i.natappfree.cc/api/students/import', formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }
@@ -95,6 +97,7 @@ const customUpload = (options) => {
             type: 'success',
             message: '文件导入成功!'
         });
+        close()
         console.log('导入结果:', response.data);
     })
     .catch(error => {
@@ -115,7 +118,7 @@ const submitUpload = () => {
 async function getTemplateDownloadLink(): Promise<string> {
   try {
     const response = await axios.get('/students/download-template');
-    return response.data; // 假设后端返回的是包含下载链接的字符串
+    return response; // 假设后端返回的是包含下载链接的字符串
   } catch (error) {
     console.error('获取下载链接失败:', error);
     throw error; // 可以选择抛出错误或者返回一个错误信息

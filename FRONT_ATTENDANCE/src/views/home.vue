@@ -19,13 +19,22 @@
                 <div @click="gotoChart" class="selectItem">
                     查看排行
                 </div>
+
+                <div class="back" @click="goLogin">
+                    <div>退出登录</div>
+                    <img src="../assets/image/back.svg" alt="" style="width: 40px;margin-left: 15px;">
+                </div>
             </div>
+
+            
+
         </div>
     </div>
 </template>
 
 <script>
 import { RouterLink, RouterView } from 'vue-router';
+import axios from '@/utils/axiosConfig';
 export default {
     data() {
         return {
@@ -44,6 +53,17 @@ export default {
         },
         gotoCall() {
             this.$router.push('/beginCall')
+        },
+        async goLogin() {
+            try {
+                const response = await axios.post('/teacher/logout');
+                console.log('退出登录成功', response)
+                // 退出登录成功后的操作，比如跳转到主页
+                this.$router.push('/');
+            } catch (error) {
+            // 处理登录错误
+            console.error('退出登录错误:', error);
+            }
         }
     }
 }
@@ -83,4 +103,19 @@ export default {
 .selectItem:hover {
     background-color: #6231F5;
 }
+
+.back {
+    display: flex;
+    position: absolute;
+    font-size: 28px;
+    font-weight: bold;
+    color: #9276CF;
+    right: 2.5%;
+    bottom: 4%;
+    cursor: pointer;
+}
+.back:hover {
+    color: #6231F5;
+}
+
 </style>

@@ -50,7 +50,7 @@
             >
           </div>
           <div class="forgot-password">
-            <a href="#">忘记密码?</a>
+            <!-- <a href="#">忘记密码?</a> -->
           </div>
           <button type="submit" class="submit-btn">登 录</button>
         </form>
@@ -115,7 +115,7 @@
   
   <script>
   import axios from '@/utils/axiosConfig';
-  import {setToken} from '@/token/auth'
+  import {getToken, setToken} from '@/token/auth'
   export default {
     data() {
       return {
@@ -143,22 +143,27 @@
       // 登录逻辑
       async handleLogin() {
         try {
-          const response = await axios.post('/teacher/login', {
-            username: this.loginForm.phone,
-            password: this.loginForm.password
+          const response = await axios.post('/teacher/login', null, {
+            params: {
+              username: this.loginForm.phone,
+              password: this.loginForm.password
+            }
+
           });
           console.log('登录成功', response)
           // 假设token在响应的data字段中
           // !!存疑！!
-          const token = response.data.token;
+          const token = response.token;
           // 存储token
           setToken(token);
-          
+          console.log( 'token是：' + getToken() )
+
+
           // 登录成功后的操作，比如跳转到主页
           this.$router.push('/home');
         } catch (error) {
           // 处理登录错误
-          console.error('登录 Error:', error);
+          console.error('登录错误:', error);
         }
       },
       // 注册逻辑
@@ -169,9 +174,11 @@
         }
         try {
           // 这里调用后端注册接口
-          const response = await axios.post('/teacher/register', {
-            username: this.registerForm.phone,
-            password: this.registerForm.password,
+          const response = await axios.post('/teacher/register', null, {
+            params:{
+              username: this.registerForm.phone,
+              password: this.registerForm.password,
+            }
           });
           // 处理注册成功逻辑
           console.log('注册成功', response);
