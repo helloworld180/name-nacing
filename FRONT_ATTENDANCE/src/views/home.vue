@@ -3,6 +3,8 @@
         <div class="content">
             <!-- 展示区 -->
             <div class="leftIcon">
+                <div class="text-style">点点小助手</div>
+                <img src="../assets/image/left-icon.svg" alt="" class="dian-icon">
                 <RouterView></RouterView>
             </div>
             <!-- 导航栏 -->
@@ -88,6 +90,21 @@ export default {
     width: 700px;
     height: 800px;
     /* background-color: red; */
+}
+.dian-icon {
+    position: absolute;
+    width: 690px;
+    /* top: 35%; */
+    left: 6%;
+    bottom: 5%;
+}
+.text-style {
+    position: absolute;
+    top: 4%;
+    left: 5%;
+    font-size: 73px;
+    font-weight: bold;
+    color: #8755F2;
 }
 .selectItem {
     padding: 25px 130px;

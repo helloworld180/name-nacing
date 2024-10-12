@@ -91,7 +91,7 @@
             <img src="../assets/image/password.png" alt="" class="input-icon">
             <input 
               v-model="registerForm.confirmPassword" 
-              :type="showConfirmPassword ? 'text' : 'password'" 
+              :type="showPassword ? 'text' : 'password'" 
               placeholder="再次确认密码"
             >
             <img src="../assets/image/eye.png"
@@ -156,7 +156,7 @@
           const token = response.token;
           // 存储token
           setToken(token);
-          console.log( 'token是：' + getToken() )
+          // console.log( 'token是：' + getToken() )
 
 
           // 登录成功后的操作，比如跳转到主页
@@ -181,6 +181,7 @@
             }
           });
           // 处理注册成功逻辑
+          alert('注册成功');
           console.log('注册成功', response);
         } catch (error) {
           // 处理注册失败逻辑

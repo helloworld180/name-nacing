@@ -4,7 +4,7 @@ import {getToken} from '@/token/auth' // 注意这里使用了解构赋值来导
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: ' http://p4ue3i.natappfree.cc/api', // 配置基础URL
+  baseURL: 'http://hup3hr.natappfree.cc/api', // 配置基础URL
   timeout: 5000, // 请求超时时间
 });
 
@@ -13,7 +13,7 @@ service.interceptors.request.use(
   config => {
     // 在发送请求之前做些什么
     const token = getToken(); // 获取token的方式取决于你的应用
-    console.log('请求拦截器的token是：' +token)
+    // console.log('请求拦截器的token是：' +token)
     console.log('Request Config:', config);
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`; // 设置token

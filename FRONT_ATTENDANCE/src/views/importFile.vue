@@ -87,7 +87,7 @@ const customUpload = (options) => {
     formData.append('file', file);
     console.log('formData是：' + formData)
 
-    axios.post('http://p4ue3i.natappfree.cc/api/students/import', formData, {
+    axios.post('/students/import', formData, {
         headers: {
         'Content-Type': 'multipart/form-data'
         }

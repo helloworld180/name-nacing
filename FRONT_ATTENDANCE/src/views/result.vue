@@ -164,7 +164,12 @@
           // const response = await axios.post('/students/${this.studentId}/adjustPoints', pointsDelta)
           await axios.put(`/students/${this.studentId}/adjustPoints`, {
             pointsDelta: pointsDelta
+          },{
+            headers: {
+        'Content-Type': 'application/json'
+    }
           });
+          console.log(this.studentId)
           alert('积分调整成功');
           this.close();
         } catch (error) {

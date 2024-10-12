@@ -56,7 +56,8 @@ import { ref } from 'vue';
                     console.log('实际接收到的数据：', response.data);
                 }
                 if (this.names.length === 0 || this.names.every(name => name.trim() === '')) {
-                  alert('后端传回的字符串数组全为空');
+                  alert('请先导入学生名单');
+                  this.back()
                   // 根据需要，可以设置默认值或者直接返回
                   // this.names = ['默认值1', '默认值2']; // 设置默认值，如果需要的话
                   return; // 如果数组为空或全为空字符串，则提前返回，不再执行后续代码
