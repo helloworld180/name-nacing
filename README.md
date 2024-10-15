@@ -48,8 +48,6 @@ npm run build
 
 ## 目录结构
 
-复制
-
 ```
 FRONT_ATTENDANCE/
 ├── public/
