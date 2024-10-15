@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/8d31383e-69f4-4e26-b6bc-9748dc047dfa)# name-nacing
+# name-nacing
 ## 项目介绍
 
 本项目是一个基于Vue.js开发的web点名系统，主要用于课堂、会议等场合的快速签到。通过本系统，管理员可以轻松管理参与人员，快速进行点名操作，并实时查看签到情况并且可以调整成员的积分、获取排名数据等。
