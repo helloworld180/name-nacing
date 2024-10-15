@@ -4,7 +4,7 @@ import {getToken} from '@/token/auth' // 注意这里使用了解构赋值来导
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://hup3hr.natappfree.cc/api', // 配置基础URL
+  baseURL: 'http://47.122.59.26:8080/api', // 配置基础URL
   timeout: 5000, // 请求超时时间
 });
 
