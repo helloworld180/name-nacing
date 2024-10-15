@@ -15,7 +15,7 @@ http://47.122.59.26:5173/
 
 * **Vue.js** : 前端框架，用于构建用户界面。
 * **Axios** : 用于HTTP通信，已进行二次封装以简化API调用。
-* **Element PLUS** : Vue.js的UI组件库，提升开发效率。
+* **Element Plus** : Vue.js的UI组件库，提升开发效率。
 * **Token-based Authentication** : 基于Token的认证机制，保障系统安全性。
 
 ## 功能特性
